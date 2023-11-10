@@ -74,23 +74,26 @@ function TreeFiles({ appData }) {
 		console.log('[before setGData]', data)
 
 		setGData(data)
+		localStorage.setItem('mytreedata', JSON.stringify(data))
+		localStorage.setItem('oldTree', 'yes')
 	}
 
 	const { filedata, setFiledata } = useContext(FileContext)
 	console.log('[Tree filedata]', gData, filedata)
 
-	// функция заменяет текст выбранного файла при вооде в TextField
+	// функция заменяет текст выбранного файла при вводе в TextField
 	function changeFileText(key, arrayData) {
 		const newtree = arrayData.map((item, i) => {
 			if (item.children) {
 				item.children = changeFileText(key, item.children)
 			}
 			if (item.key === key) {
+				// заменить найденный текст
 				item.text = filedata.text
-				console.log('[fd]', filedata.key, key, filedata.text)
+				// console.log('[fd]', filedata.key, key, filedata.text)
 				return item
 			} else {
-				// Остальные не меняем
+				// остальные не меняем, возвращаем как есть
 				return item
 			}
 		})
@@ -99,18 +102,11 @@ function TreeFiles({ appData }) {
 
 	if (filedata.key != null) {
 		const newtree = changeFileText(filedata.key, gData)
-		console.log('[newtree]', newtree)
-		// setGData(newtree)
+		// console.log('[newtree]', newtree)
 	}
-	// function findById(acc, el) {
-	// 	if (el.id === 8) return el
-	// 	if (el.children) {
-	// 		return el.children.map(findById, acc)
-	// 	return acc
-	// }
 
 	const onSelect = (info, e) => {
-		console.log('[NODE onSelect]', info, e, filedata)
+		console.log('[node onSelect]', info, e, filedata)
 		setFiledata({ key: e.node.key, text: e.node.text })
 	}
 

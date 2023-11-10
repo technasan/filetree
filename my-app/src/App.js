@@ -44,15 +44,15 @@ function App({ appData, oldTree }) {
 
 	const [treedata, setTreeData] = useState(treefiles)
 	// const [treedata, setTreeData] = useState(localStorage.getItem('mytreedata') ? JSON.parse(localStorage.getItem('mytreedata')) : treefiles)
-	// if (oldTree === 'yes') {
-	// 	console.log('-- oldTree yes --')
-	// }
+	// if (oldTree === 'yes') {	console.log('-- oldTree yes --') }
 
 	return (
 		<div className='App'>
 			<Row gutter={16}>
 				<Col span={14} offset={4}>
-					<Title className='heading'>The Tree App</Title>
+					<Title className='heading'>
+						The File Tree App {getIcon('folder_opened')} {getIcon('file')}
+					</Title>
 				</Col>
 			</Row>
 			<Row gutter={16} className='m-top-5'>
@@ -60,7 +60,7 @@ function App({ appData, oldTree }) {
 					<Col span={6} offset={4} className='block-bg'>
 						<Flex vertical='true' justify='space-between'>
 							<div className='h-tree'>
-								<TreeFiles appData={treedata} filedata={filedata} />
+								<TreeFiles appData={treedata} filedata={filedata} className='text-field' />
 							</div>
 							<br />
 							<Controls />

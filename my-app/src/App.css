@@ -1,6 +1,14 @@
 body {
+  margin: 0;
   font-family: Roboto, "Open Sans", sans-serif;
-  background-color:#282c34;
+  background-color: #282c34;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
 .App {
@@ -43,6 +51,7 @@ body {
 }
 .h-tree {
   min-height: 150px;
+  min-width: 210px;
   height: auto;
 }
 
@@ -55,14 +64,6 @@ body {
     border-style: dotted;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
  /*
 div {
   border: 2px dashed black;
