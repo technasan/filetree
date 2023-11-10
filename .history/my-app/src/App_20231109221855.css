@@ -1,0 +1,69 @@
+body {
+  font-family: Roboto, "Open Sans", sans-serif;
+  background-color:#282c34;
+}
+
+.App {
+  margin-top: 10vh;
+  font-family: Roboto, "Open Sans", sans-serif;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.heading {
+  text-align: center;
+  -webkit-text-fill-color: transparent !important;
+  fill: transparent !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  background-image: linear-gradient(135deg, #818ae6, #e2627c);
+}
+
+.block-bg {
+  background-color: rgb(168, 213, 252);
+  border-radius: 18px;
+  border-style: none;
+  color: #21123dc9;
+  font-size: clamp(12px, 2vw, 20px);
+  font-weight: 500;
+  margin-right: 2px;
+  padding: 0 4px 5px 0;
+}
+.m-top-5 {
+  margin-top: 5px;
+}
+.h-tree {
+  min-height: 150px;
+  height: auto;
+}
+
+#btnContainer .ant-space-item {
+  margin: auto;
+}
+
+.text-field {
+    border-radius: 18px;
+    border-style: dotted;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+ /*
+div {
+  border: 2px dashed black;
+} */
