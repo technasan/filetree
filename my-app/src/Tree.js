@@ -7,8 +7,7 @@ function TreeFiles({ appData }) {
 	const [expandedKeys] = useState([]) // const [expandedKeys] = useState(['0-1'])
 
 	const onDragEnter = info => {
-		console.log(info)
-		// expandedKeys, set it when controlled is needed
+		console.log('[draginfo]', info)
 		// setExpandedKeys(info.expandedKeys)
 	}
 
@@ -74,12 +73,12 @@ function TreeFiles({ appData }) {
 		console.log('[before setGData]', data)
 
 		setGData(data)
+		console.log('[drop data]', data)
 		localStorage.setItem('mytreedata', JSON.stringify(data))
-		localStorage.setItem('oldTree', 'yes')
 	}
 
 	const { filedata, setFiledata } = useContext(FileContext)
-	console.log('[Tree filedata]', gData, filedata)
+	console.log('[Context filedata]', gData, filedata)
 
 	// функция заменяет текст выбранного файла при вводе в TextField
 	function changeFileText(key, arrayData) {
@@ -90,7 +89,6 @@ function TreeFiles({ appData }) {
 			if (item.key === key) {
 				// заменить найденный текст
 				item.text = filedata.text
-				// console.log('[fd]', filedata.key, key, filedata.text)
 				return item
 			} else {
 				// остальные не меняем, возвращаем как есть
@@ -102,7 +100,7 @@ function TreeFiles({ appData }) {
 
 	if (filedata.key != null) {
 		const newtree = changeFileText(filedata.key, gData)
-		// console.log('[newtree]', newtree)
+		localStorage.setItem('mytreedata', JSON.stringify(newtree))
 	}
 
 	const onSelect = (info, e) => {
@@ -115,6 +113,7 @@ function TreeFiles({ appData }) {
 			className='draggable-tree'
 			defaultExpandedKeys={expandedKeys}
 			draggable
+			showIcon
 			blockNode
 			onDragEnter={onDragEnter}
 			onDrop={onDrop}

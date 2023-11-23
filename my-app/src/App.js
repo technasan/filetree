@@ -2,11 +2,21 @@ import React, { useState } from 'react'
 
 import './App.css'
 import { Row, Col, Flex, Typography } from 'antd'
-import { getIcon } from './helpers'
+// import { getIcon } from './helpers'
 import { FileContext } from './FileContext.js' // контекст для хранения текста редактируемого файла
+// import {
+// 	CloseCircleOutlined,
+// 	FileTextOutlined,
+// 	FileAddOutlined,
+// 	FolderOutlined,
+// 	FolderOpenOutlined,
+// 	FolderAddOutlined,
+// 	RightOutlined,
+// 	UpOutlined,
+// } from '@ant-design/icons'
 
 import TextField from './TextField'
-import Controls from './Controls'
+// import Controls from './Controls'
 import TreeFiles from './Tree'
 
 const { Title } = Typography
@@ -17,6 +27,7 @@ function App({ appData, oldTree }) {
 		key: null,
 		text: '',
 	}
+	// Текст и key открытого в поле редактирования файла
 	const [filedata, setFiledata] = useState(initfile)
 
 	// функция добавления ключей для отображения дерева - при первом проходе
@@ -26,7 +37,9 @@ function App({ appData, oldTree }) {
 		for (let i = 0; i < array.length; i++) {
 			const key = `${preKey}-${i}`
 			array[i].key = key
-			// console.log('-', key, level)
+			// array[i].isFolder === false ? (array[i].icon = <FileTextOutlined />) : (array[i].icon = <FolderOutlined />)
+			// array[i].title = <FolderOutlined /> + array[i].title
+			// console.log('-', array[i].icon, array[i].title)
 			if (array[i].children.length > 0) {
 				levelData(array[i].children, level + 1, key)
 			}
@@ -34,46 +47,43 @@ function App({ appData, oldTree }) {
 		return array
 	}
 
-	// Проверяем признак, есть ли структура файлов в localstorage. Если да - берем данные из storage,
+	// Проверяем, есть ли структура файлов в localstorage. Если да - берем данные оттуда,
 	// нет - добавляем keys для дерева и сразу записываем в localstorage.
-	const treefiles = oldTree === 'no' ? levelData(appData) : JSON.parse(appData)
-	if (oldTree === 'no') {
+
+	const treefiles = localStorage.getItem('mytreedata') == null ? levelData(appData) : JSON.parse(appData)
+	console.log('[App.js treefiles]', treefiles)
+
+	if (localStorage.getItem('mytreedata') == null) {
 		localStorage.setItem('mytreedata', JSON.stringify(treefiles))
-		localStorage.setItem('oldTree', 'yes')
 	}
 
-	const [treedata, setTreeData] = useState(treefiles)
-	// const [treedata, setTreeData] = useState(localStorage.getItem('mytreedata') ? JSON.parse(localStorage.getItem('mytreedata')) : treefiles)
-	// if (oldTree === 'yes') {	console.log('-- oldTree yes --') }
+	// Поскольку дерево хранится в localStorage, не использую для него state
+	// const [treedata, setTreeData] = useState(treefiles)
 
 	return (
 		<div className='App'>
-			<Row gutter={16}>
-				<Col span={14} offset={4}>
-					<Title className='heading'>
-						The File Tree App {getIcon('folder_opened')} {getIcon('file')}
-					</Title>
-				</Col>
-			</Row>
-			<Row gutter={16} className='m-top-5'>
-				<FileContext.Provider value={{ filedata, setFiledata }}>
-					<Col span={6} offset={4} className='block-bg'>
-						<Flex vertical='true' justify='space-between'>
-							<div className='h-tree'>
-								<TreeFiles appData={treedata} filedata={filedata} className='text-field' />
-							</div>
-							<br />
-							<Controls />
-						</Flex>
-					</Col>
-					<Col span={8} offset={0} className='block-bg'>
-						<TextField />
-					</Col>
-				</FileContext.Provider>
-			</Row>
+			<Title className='heading'>The File Tree App</Title>
+			<div className='block-bg'>
+				<Row gutter={8}>
+					<FileContext.Provider value={{ filedata, setFiledata }}>
+						<Col span={10}>
+							<Flex vertical='true' justify='space-between'>
+								<div className='h-tree'>
+									<TreeFiles appData={treefiles} filedata={filedata} className='text-field' />
+								</div>
+								<br />
+							</Flex>
+						</Col>
+						<Col span={14} offset={0}>
+							<TextField />
+						</Col>
+					</FileContext.Provider>
+				</Row>
+			</div>
 		</div>
 	)
 }
 export default App
 
-// {getIcon('folder_opened')} {getIcon('arrow_side')} {getIcon('arrow_side')}
+// {getIcon('folder_opened')} {getIcon('arrow_side')} {getIcon('arrow_side')} {getIcon('folder_opened')} {getIcon('file')}
+// <Controls />

@@ -1,7 +1,15 @@
+body,
+html {
+  height: 100%;
+}
 body {
   margin: 0;
   font-family: Roboto, "Open Sans", sans-serif;
   background-color: #282c34;
+  background-image: url('img/siyanie-fon-5.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -12,39 +20,28 @@ code {
 }
 
 .App {
-  margin-top: 10vh;
+  margin-top: 100px 200px;
   font-family: Roboto, "Open Sans", sans-serif;
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  
 }
 
 .heading {
   text-align: center;
-  -webkit-text-fill-color: transparent !important;
-  fill: transparent !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  background-image: linear-gradient(135deg, #818ae6, #e2627c);
+  color: white!important;
+  text-shadow: 3px 3px #252525;
+
 }
 
 .block-bg {
   background-color: rgb(168, 213, 252);
-  border-radius: 18px;
+  border-radius: 8px;
   border-style: none;
-  color: #21123dc9;
-  font-size: clamp(12px, 2vw, 20px);
+  color: #0f0628;
   font-weight: 500;
-  margin-right: 2px;
-  padding: 0 4px 5px 0;
+  margin: 0 10%;
+  padding: 5px;
+  /* box-shadow: 3px 3px #252525; */
 }
 .m-top-5 {
   margin-top: 5px;
@@ -60,11 +57,11 @@ code {
 }
 
 .text-field {
-    border-radius: 18px;
+    border-radius: 8px;
     border-style: dotted;
 }
 
- /*
-div {
+ 
+/* div {
   border: 2px dashed black;
-} */
+}  */

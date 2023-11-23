@@ -12,7 +12,7 @@ function TextField() {
 	const { filedata, setFiledata } = useContext(FileContext)
 
 	const onHandleInput = e => {
-		console.log('[TEXTFIELD onInput]', e.target.value, filedata)
+		// console.log('[textfield onInput]', e.target.value, filedata)
 		setTextVal(e.target.value)
 		setFiledata({ key: filedata.key, text: e.target.value })
 	}
@@ -20,7 +20,7 @@ function TextField() {
 	return (
 		<TextArea
 			rows={8}
-			placeholder='hello TextField'
+			placeholder='Сделайте новую заметку'
 			className='text-field'
 			value={filedata.text}
 			onInput={onHandleInput}

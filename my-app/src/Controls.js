@@ -5,7 +5,7 @@ import { Button, Space } from 'antd'
 function Controls() {
 	return (
 		<Space id='btnContainer'>
-			<Button type='primary' className='button' disabled>
+			<Button type='primary' className='button'>
 				Новый файл
 			</Button>
 			<Button type='primary' className='button' disabled>
