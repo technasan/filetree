@@ -1,17 +1,14 @@
 import React, { useState } from 'react'
-
 import './App.css'
 import { Row, Col, Flex, Typography } from 'antd'
-// import { getIcon } from './helpers'
 import { FileContext } from './FileContext.js' // контекст для хранения текста редактируемого файла
 
 import TextField from './TextField'
-// import Controls from './Controls'
 import TreeFiles from './Tree'
 
 const { Title } = Typography
 
-function App({ appData, oldTree }) {
+function App({ appData }) {
 	// стартовые значения для хранения текста редактируемого файла
 	const initfile = {
 		key: null,
@@ -20,13 +17,15 @@ function App({ appData, oldTree }) {
 	// Текст и key открытого в поле редактирования файла
 	const [filedata, setFiledata] = useState(initfile)
 
-	// функция добавления ключей для отображения дерева - при первом проходе
+	// Функция добавления ключей для отображения дерева - при первом проходе
 	const levelData = (array, _level, _preKey) => {
 		const preKey = _preKey || '0'
 		const level = _level || '0'
 		for (let i = 0; i < array.length; i++) {
 			const key = `${preKey}-${i}`
 			array[i].key = key
+			array[i].defaultValue = key
+			array[i].isEditable = false
 			array[i].puretitle = array[i].title
 			if (array[i].children.length > 0) {
 				levelData(array[i].children, level + 1, key)
@@ -37,16 +36,10 @@ function App({ appData, oldTree }) {
 
 	// Проверяем, есть ли структура файлов в localstorage. Если да - берем данные оттуда,
 	// нет - добавляем keys для дерева и сразу записываем в localstorage.
-
 	const treefiles = localStorage.getItem('mytreedata') == null ? levelData(appData) : JSON.parse(appData)
-	console.log('[App.js treefiles]', treefiles)
-
 	if (localStorage.getItem('mytreedata') == null) {
 		localStorage.setItem('mytreedata', JSON.stringify(treefiles))
 	}
-
-	// Поскольку дерево хранится в localStorage, не использую для него state
-	// const [treedata, setTreeData] = useState(treefiles)
 
 	return (
 		<div className='App'>

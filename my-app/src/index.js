@@ -1,10 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
 import App from './App'
 
 // Проверяем, есть ли структура дерева в localstorage
-// console.log('[local mytreedata]', localStorage.getItem('mytreedata'))
 if (localStorage.getItem('mytreedata')) {
 	const root = ReactDOM.createRoot(document.getElementById('root'))
 	root.render(
@@ -14,7 +12,7 @@ if (localStorage.getItem('mytreedata')) {
 	)
 } else {
 	// если в localstorage пусто, запрашиваем начальные данные
-	fetch(`${process.env.PUBLIC_URL}/initial-full.json`)
+	fetch(`${process.env.PUBLIC_URL}/initial.json`)
 		.then(r => r.json())
 		.then(data => {
 			const root = ReactDOM.createRoot(document.getElementById('root'))
