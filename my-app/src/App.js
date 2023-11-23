@@ -4,16 +4,6 @@ import './App.css'
 import { Row, Col, Flex, Typography } from 'antd'
 // import { getIcon } from './helpers'
 import { FileContext } from './FileContext.js' // контекст для хранения текста редактируемого файла
-// import {
-// 	CloseCircleOutlined,
-// 	FileTextOutlined,
-// 	FileAddOutlined,
-// 	FolderOutlined,
-// 	FolderOpenOutlined,
-// 	FolderAddOutlined,
-// 	RightOutlined,
-// 	UpOutlined,
-// } from '@ant-design/icons'
 
 import TextField from './TextField'
 // import Controls from './Controls'
@@ -37,9 +27,7 @@ function App({ appData, oldTree }) {
 		for (let i = 0; i < array.length; i++) {
 			const key = `${preKey}-${i}`
 			array[i].key = key
-			// array[i].isFolder === false ? (array[i].icon = <FileTextOutlined />) : (array[i].icon = <FolderOutlined />)
-			// array[i].title = <FolderOutlined /> + array[i].title
-			// console.log('-', array[i].icon, array[i].title)
+			array[i].puretitle = array[i].title
 			if (array[i].children.length > 0) {
 				levelData(array[i].children, level + 1, key)
 			}
@@ -71,7 +59,6 @@ function App({ appData, oldTree }) {
 								<div className='h-tree'>
 									<TreeFiles appData={treefiles} filedata={filedata} className='text-field' />
 								</div>
-								<br />
 							</Flex>
 						</Col>
 						<Col span={14} offset={0}>

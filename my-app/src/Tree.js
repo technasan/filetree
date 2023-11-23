@@ -1,16 +1,19 @@
 import React, { useState, useContext } from 'react'
 import { FileContext } from './FileContext.js'
 import { Tree } from 'antd'
+import { EditOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons'
+
+const { TreeNode } = Tree
 
 function TreeFiles({ appData }) {
 	const [gData, setGData] = useState(appData)
 	const [expandedKeys] = useState([]) // const [expandedKeys] = useState(['0-1'])
 
+	// Функции для перетаскивания
 	const onDragEnter = info => {
 		console.log('[draginfo]', info)
 		// setExpandedKeys(info.expandedKeys)
 	}
-
 	const onDrop = info => {
 		console.log('[info onDrop]', info)
 		const dropKey = info.node.key
@@ -71,16 +74,33 @@ function TreeFiles({ appData }) {
 		}
 
 		console.log('[before setGData]', data)
-
 		setGData(data)
+
+		// array[i].puretitle = array[i].title
 		console.log('[drop data]', data)
+
 		localStorage.setItem('mytreedata', JSON.stringify(data))
 	}
 
+	// В localStorage нельзя хранить компоненты иконок, поэтому перед записью надо очистить title.
+	// Изначальное название 'файла' хранится в pretitle
+	const clearData = array => {
+		let newarr = []
+		for (let i = 0; i < array.length; i++) {
+			newarr[i].key = array[i].key
+			newarr[i].title = array[i].puretitle
+			if (array[i].children.length > 0) {
+				newarr[i].children = clearData(array[i].children)
+			}
+		}
+		return array
+	}
+
+	// Редактирование файла
 	const { filedata, setFiledata } = useContext(FileContext)
 	console.log('[Context filedata]', gData, filedata)
 
-	// функция заменяет текст выбранного файла при вводе в TextField
+	// Заменить текст выбранного файла при вводе в TextField
 	function changeFileText(key, arrayData) {
 		const newtree = arrayData.map((item, i) => {
 			if (item.children) {
@@ -88,9 +108,11 @@ function TreeFiles({ appData }) {
 			}
 			if (item.key === key) {
 				// заменить найденный текст
+				item.title = item.puretitle
 				item.text = filedata.text
 				return item
 			} else {
+				item.title = item.puretitle
 				// остальные не меняем, возвращаем как есть
 				return item
 			}
@@ -100,12 +122,54 @@ function TreeFiles({ appData }) {
 
 	if (filedata.key != null) {
 		const newtree = changeFileText(filedata.key, gData)
+		console.log('[newtree]', newtree)
 		localStorage.setItem('mytreedata', JSON.stringify(newtree))
 	}
 
 	const onSelect = (info, e) => {
-		console.log('[node onSelect]', info, e, filedata)
 		setFiledata({ key: e.node.key, text: e.node.text })
+	}
+
+	// Модификация для удаления-добавления нод
+	const renderTreeNodes = data => {
+		let nodeArr = data.map(item => {
+			item.title = (
+				<div>
+					<span>{item.puretitle}</span>
+					<span>
+						<EditOutlined style={{ marginLeft: 10 }} />
+						<PlusOutlined style={{ marginLeft: 10 }} />
+						<MinusOutlined style={{ marginLeft: 10 }} />
+					</span>
+				</div>
+			)
+
+			if (item.children) {
+				return (
+					<TreeNode
+						title={item.title}
+						key={item.key}
+						text={item.text}
+						puretitle={item.puretitle}
+						isFolder={item.isFolder}
+						dataRef={item}
+					>
+						{renderTreeNodes(item.children)}
+					</TreeNode>
+				)
+			}
+			return (
+				<TreeNode
+					title={item.title}
+					key={item.key}
+					text={item.text}
+					puretitle={item.puretitle}
+					isFolder={item.isFolder}
+				/>
+			)
+		})
+		// console.log('NODES', nodeArr)
+		return nodeArr
 	}
 
 	return (
@@ -118,8 +182,9 @@ function TreeFiles({ appData }) {
 			onDragEnter={onDragEnter}
 			onDrop={onDrop}
 			onSelect={onSelect}
-			treeData={gData}
-		/>
+		>
+			{renderTreeNodes(gData)}
+		</Tree>
 	)
 }
 export default TreeFiles

@@ -14,10 +14,9 @@ if (localStorage.getItem('mytreedata')) {
 	)
 } else {
 	// если в localstorage пусто, запрашиваем начальные данные
-	fetch(`${process.env.PUBLIC_URL}/initial.json`)
+	fetch(`${process.env.PUBLIC_URL}/initial-full.json`)
 		.then(r => r.json())
 		.then(data => {
-			// console.log('-- New Tree --')
 			const root = ReactDOM.createRoot(document.getElementById('root'))
 			root.render(
 				<React.StrictMode>
